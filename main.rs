@@ -54,6 +54,9 @@ impl Arquivo{
         }
 
     }
+    fn alterar_permissoes(&mut self, permi: (Permissao, Permissao, Permissao)){
+        self.permissoes = permi;
+    }
     fn stat(&self) {
         println!("Arquivo: {}", self.nome);
         println!("Tamanho: {}", self.tamanho);
@@ -110,10 +113,7 @@ impl Usuario {
     fn adiciona_grupo(&mut self, grupo: Grupo) {
         self.grupo = grupo;
     }
-    fn remove_grupo(&mut self, grupo: &Grupo) {
-        if self.grupo.gid == grupo.gid{
-        }
-    }
+
     fn listar_grupos(&self) {
         println!("Grupo: {}", self.grupo.nome);
     }
@@ -157,35 +157,6 @@ fn criar_arquivo(arquivos: &mut Vec<Arquivo>, usuarios: &Vec<Usuario>, grupos: &
     let gid: u16 = gid_input.trim().parse().expect("Erro ao converter GID!");
 
     let grupo = grupos.iter().find(|g| g.gid == gid).expect("Grupo não encontrado.");
-
-    let mut leitura: String = String::new();
-    let mut escrita: String = String::new();
-    let mut execucao: String = String::new();
-
-    println!("Digite as permissões (r para leitura, w para escrita, x para execução) para o proprietário (ex: rw-):");
-    std::io::stdin().read_line(&mut leitura).expect("Erro ao ler linha!");
-    println!("Digite as permissões para o grupo (ex: rw-):");
-    std::io::stdin().read_line(&mut escrita).expect("Erro ao ler linha!");
-    println!("Digite as permissões para outros (ex: rw-):");
-    std::io::stdin().read_line(&mut execucao).expect("Erro ao ler linha!");
-
-    let permissoes = (
-        Permissao {
-            leitura: leitura.chars().nth(0).unwrap() == 'r',
-            escrita: leitura.chars().nth(1).unwrap() == 'w',
-            execucao: leitura.chars().nth(2).unwrap() == 'x',
-        },
-        Permissao {
-            leitura: escrita.chars().nth(0).unwrap() == 'r',
-            escrita: escrita.chars().nth(1).unwrap() == 'w',
-            execucao: escrita.chars().nth(2).unwrap() == 'x',
-        },
-        Permissao {
-            leitura: execucao.chars().nth(0).unwrap() == 'r',
-            escrita: execucao.chars().nth(1).unwrap() == 'w',
-            execucao: execucao.chars().nth(2).unwrap() == 'x',
-        },
-    );
 
     let mut nome_diretorio: String = String::new();
     println!("Digite o nome do diretório onde o arquivo será criado:");
@@ -475,7 +446,9 @@ fn main() {
                 let mut pos_input = String::new();
                 std::io::stdin().read_line(&mut pos_input).expect("Falha ao ler a entrada");
                 let pos: usize = pos_input.trim().parse().expect("Por favor, insira um número válido");
+
                 println!("Digite o novo nome do arquivo:");
+
                 let mut novo_nome = String::new();
                 std::io::stdin().read_line(&mut novo_nome).expect("Falha ao ler a entrada");
                 let novo_nome = novo_nome.trim().to_string();
