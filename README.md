@@ -61,3 +61,5 @@ autorreferencia de usuário.
 autorreferencia de usuário.
 • No método listar_grupos você deve listar todos os membros daquele grupo.
 ```
+# Menu:
+![image](https://github.com/user-attachments/assets/bace8a39-3824-40d7-bf1c-17e57a123208)
